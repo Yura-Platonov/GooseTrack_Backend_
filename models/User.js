@@ -71,6 +71,14 @@ export const userEmailSchema = Joi.object({
   email: Joi.string().required(),
 });
 
+export const userUpdateSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp),
+  username: Joi.string().max(16),
+  birthday: Joi.string(),
+  phone: Joi.string(),
+  skype: Joi.string().max(16),
+});
+
 const User = model("user", userSchema);
 
 export default User;
