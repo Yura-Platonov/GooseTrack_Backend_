@@ -10,9 +10,12 @@ const reviewsSchema = new Schema({
     comment: {
         type: String,
         required: true
+    },
+    stars: {
+        type: Number,
+        required: true
     }
 })
-
 
 reviewsSchema.post("save", handleSaveError);
 
@@ -23,6 +26,7 @@ reviewsSchema.post("findOneAndUpdate", handleSaveError);
 export const reviewsAddCommentSchema = Joi.object({
     name: Joi.string().required(),
     comment: Joi.string().required(),
+    stars: Joi.number().required(),
 })
 
 const Reviews = model('reviews', reviewsSchema)

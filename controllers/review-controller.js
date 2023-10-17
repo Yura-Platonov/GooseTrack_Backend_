@@ -8,43 +8,43 @@ const getReview = async (req, res, next) => {
 };
 
 const getOwnReview = async (req, res, next) => {
-     const username = req.user.username; 
-    const userReview = await Reviews.findOne({ name: username });
-    if (!userReview) {
-      throw HttpError(404, "Review not found for this user");
-    }
-    res.status(200).json(userReview);
+  const username = req.user.username;
+  const userReview = await Reviews.findOne({ name: username });
+  if (!userReview) {
+    throw HttpError(404, "Review not found for this user");
+  }
+  res.status(200).json(userReview);
 };
 
 const addReview = async (req, res) => {
-    const name = req.body.name;
-    const comment = req.body.comment;
-    const newReview = await Reviews.create({ name, comment });
-    res.status(201).json(newReview);
- }
+  const { name, comment, stars } = req.body;
+  const newReview = await Reviews.create({ name, comment, stars });
+  res.status(201).json(newReview);
+};
 
 const editingReview = async (req, res) => {
-const username = req.user.username;
-    const updatedComment = req.body.comment;
-     const userReview = await Reviews.findOneAndUpdate(
-       { name: username },
-       { $set: { comment: updatedComment } },
-       { new: true } 
-    );
-     if (!userReview) {
-       throw new HttpError(404, "Review not found for this user");
-    }
-     res.status(200).json(userReview);
-}
- 
+  const username = req.user.username;
+  const updatedComment = req.body.comment;
+  const updatedStars = req.body.stars;
+  const userReview = await Reviews.findOneAndUpdate(
+    { name: username },
+    { $set: { comment: updatedComment, stars: updatedStars } },
+    { new: true }
+  );
+  if (!userReview) {
+    throw new HttpError(404, "Review not found for this user");
+  }
+  res.status(200).json(userReview);
+};
+
 const deleteReview = async (req, res) => {
-    const username = req.user.username;
-    const userReview = await Reviews.findOneAndDelete({ name: username });
-     if (!userReview) {
-       throw new HttpError(404, "Review not found for this user");
-    }
-    res.status(204).end();
- }
+  const username = req.user.username;
+  const userReview = await Reviews.findOneAndDelete({ name: username });
+  if (!userReview) {
+    throw new HttpError(404, "Review not found for this user");
+  }
+  res.status(204).end();
+};
 
 export default {
   getReview: ctrlWrapper(getReview),
