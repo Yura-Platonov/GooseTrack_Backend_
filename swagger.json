@@ -1,0 +1,596 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "GooseTrack Api",
+    "description": "Time management To-do app"
+  },
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json"],
+  "servers": [
+    { "url": "http://localhost:4000" },
+    { "url": "https://goosetrack-backend-y622.onrender.com" }
+  ],
+  "tags": [
+    { "name": "Auth", "description": "Users endpoints" },
+    { "name": "Tasks", "description": "Tasks endpoints" },
+    { "name": "Reviews", "description": "Reviews endpoints" }
+  ],
+
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthNotFoundResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterConflictResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/verify": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Verification email",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyBadRequestResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthNotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "User login object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password is wrong",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthNotFoundResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access errors (authorization or token verification)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user info",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/update": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "Update current user info",
+        "parameters": [],
+        "requestBody": {
+          "description": "User parameters object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["username", "email", "password"],
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "User Name"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "UpdateRequest": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "file"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "User Name"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User's birthday date",
+            "example": "YYYY-MM-DD"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User's phone number",
+            "example": "+380971234567"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User's Skype link",
+            "example": "SkypeName"
+          }
+        }
+      },
+      "VerifyRequest": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Verification letter was send to you email."
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Backend access token"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserResponse"
+          }
+        }
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "User's id",
+            "example": "652d5e5c23186b57ab8c082b"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "username": {
+            "type": "string",
+            "description": "User's name",
+            "example": "User Name"
+          },
+          "birthday": {
+            "type": "string",
+            "description": "User`s birthday",
+            "example": "YYYY-MM-DD"
+          },
+          "phone": {
+            "type": "string",
+            "description": "User`s phone number",
+            "example": "+380971234567"
+          },
+          "skype": {
+            "type": "string",
+            "description": "User`s Skype link",
+            "example": "SkypeName"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User`s avatar",
+            "example": " "
+          }
+        }
+      },
+      "LogoutResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Logout success"
+          }
+        }
+      },
+      "LoginErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email or password is wrong"
+          }
+        }
+      },
+      "VerifyResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Verification email sent"
+          }
+        }
+      },
+      "BadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Bad Request"
+          }
+        }
+      },
+      "VerifyBadRequestResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Bad Request"
+          }
+        }
+      },
+      "AuthNotFoundResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "User not found"
+          }
+        }
+      },
+      "RegisterConflictResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email in use"
+          }
+        }
+      },
+      "LoginErrorRespons": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Email or password is wrong"
+          }
+        }
+      },
+      "AuthErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Not authorized"
+          }
+        }
+      },
+      "ServerErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Server error"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
