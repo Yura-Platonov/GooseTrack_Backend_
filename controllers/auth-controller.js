@@ -35,11 +35,6 @@ const register = async (req, res) => {
   await sendEmail(verifyEmail);
 
   res.status(201).json({
-    // user: {
-    //   email: newUser.email,
-    //   subscription: newUser.subscription,
-    //   avatarURL,
-    // },
     message: "Verification letter was send to you email.",
   });
 };
@@ -107,7 +102,13 @@ const login = async (req, res) => {
   res.json({
     token,
     user: {
-      email,
+      id: user._id,
+      email: user.email,
+      username: user.username,
+      birthday: user.birthday,
+      phone: user.phone,
+      skype: user.skype,
+      avatarURL: user.avatarURL,
     },
   });
 };

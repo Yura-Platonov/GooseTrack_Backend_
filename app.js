@@ -2,6 +2,9 @@ import express from "express";
 import logger from "morgan";
 import cors from "cors";
 import "dotenv/config";
+import swagger from "swagger-ui-express";
+import swaggerDocument from "./swagger.json" assert { type: "json" };
+
 
 import authRouter from "./routes/api/auth-router.js";
 import reviewsRouter from "./routes/api/reviews-router.js";
@@ -17,7 +20,7 @@ app.use(express.static("public"));
 
 app.use("/api/auth", authRouter);
 app.use("/api/reviews", reviewsRouter);
-
+app.use("/api-docs", swagger.serve, swagger.setup(swaggerDocument));
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
