@@ -5,9 +5,9 @@ import "dotenv/config";
 import swagger from "swagger-ui-express";
 import swaggerDocument from "./swagger.json" assert { type: "json" };
 
-
 import authRouter from "./routes/api/auth-router.js";
 import reviewsRouter from "./routes/api/reviews-router.js";
+import taskRouter from "./routes/api/task-router.js";
 
 const app = express();
 
@@ -21,6 +21,7 @@ app.use(express.static("public"));
 app.use("/api/auth", authRouter);
 app.use("/api/reviews", reviewsRouter);
 app.use("/api-docs", swagger.serve, swagger.setup(swaggerDocument));
+app.use("/api/task", taskRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
@@ -32,5 +33,3 @@ app.use((err, req, res, next) => {
 });
 
 export default app;
-
-
