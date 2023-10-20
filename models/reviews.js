@@ -29,6 +29,12 @@ export const reviewsAddCommentSchema = Joi.object({
     stars: Joi.number().required(),
 })
 
+export const reviewsUpdateCommentSchema = Joi.object({
+    name: Joi.string(),
+    comment: Joi.string(),
+    stars: Joi.number(),
+});
+
 const Reviews = model('reviews', reviewsSchema)
 
 export default Reviews

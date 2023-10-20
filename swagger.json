@@ -348,8 +348,480 @@
           }
         }
       }
+    },
+    "/api/reviews": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get all reviews",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetReviewsResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/reviews/own": {
+      "get": {
+        "tags": ["Reviews"],
+        "summary": "Get review created by the current user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Review not found for this user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Reviews"],
+        "summary": "Adds review by the user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for add user review",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access errors (authorization or token verification)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Reviews"],
+        "summary": "Updates review by the user",
+        "parameters": [],
+        "requestBody": {
+          "description": "Updates review by the user",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReviewRequest"
+              }
+            }
+          }
+        },
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Review not found for this user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Reviews"],
+        "summary": "Delete review",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "204": {
+            "description": "Delete review"
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Review not found for this user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks": {
+      "get": {
+        "tags": ["Tasks"],
+        "summary": "Get review created by the current user",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "year",
+            "description": "Year of the tasks",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "month",
+            "description": "Month of the tasks",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetAllTasksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing year or month",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskBadRequestErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Add task by the user",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Object for add task",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Access errors (authorization or token verification)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/tasks/{taskId}": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Update task",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "ID of task that needs to be updated",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Object for update task",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateTaskRequest" }
+            }
+          }
+        },
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete Task",
+        "parameters": [
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "ID of task that needs to be deleted task",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/DeleteTaskResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Review not found for this user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
+
   "components": {
     "schemas": {
       "RegistrationRequest": {
@@ -430,6 +902,108 @@
             "type": "string",
             "description": "User's email",
             "format": "email"
+          }
+        }
+      },
+      "ReviewRequest": {
+        "type": "object",
+        "required": ["name", "comment", "stars"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Volodymyr Shvets"
+          },
+          "comment": {
+            "type": "string",
+            "example": "A good, visual time planning program."
+          },
+          "stars": {
+            "type": "number",
+            "example": "5"
+          }
+        }
+      },
+      "UpdateReviewRequest": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string",
+            "example": "A good, visual time planning program."
+          },
+          "stars": {
+            "type": "number",
+            "example": "5"
+          }
+        }
+      },
+      "TaskRequest": {
+        "type": "object",
+        "required": ["title", "start", "end", "priority", "date", "category"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "task 1"
+          },
+          "start": {
+            "type": "string",
+            "example": "09:30"
+          },
+          "end": {
+            "type": "number",
+            "example": "10:00"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "example": "medium"
+          },
+          "date": {
+            "type": "string",
+            "example": "YYYY-MM-DD"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "to-do"
+          },
+          "owner": {
+            "type": "string",
+            "example": "653073cdeae73ae04545da9d"
+          }
+        }
+      },
+      "UpdateTaskRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "task 1"
+          },
+          "start": {
+            "type": "string",
+            "example": "09:30"
+          },
+          "end": {
+            "type": "number",
+            "example": "10:00"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "example": "medium"
+          },
+          "date": {
+            "type": "string",
+            "example": "YYYY-MM-DD"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "to-do"
+          },
+          "owner": {
+            "type": "string",
+            "example": "653073cdeae73ae04545da9d"
           }
         }
       },
@@ -575,6 +1149,15 @@
           }
         }
       },
+      "ReviewErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Review not found for this user"
+          }
+        }
+      },
       "ServerErrorResponse": {
         "type": "object",
         "properties": {
@@ -583,8 +1166,158 @@
             "example": "Server error"
           }
         }
+      },
+      "GetReviewsResponse": {
+        "type": "array",
+        "description": "Array of all reviews",
+        "items": {
+          "$ref": "#/components/schemas/ReviewResponse"
+        },
+        "example": [
+          {
+            "_id": "652aafc986fbe66cdf186acb",
+            "name": "Ihor Dronenko",
+            "comment": "Really helps to increase productivity. The application has a clear interface and useful features. I like it at the initial stage. ",
+            "stars": 5
+          },
+          {
+            "_id": "652aafc986fbe66cdf186acc",
+            "name": "Volodymyr Shvets",
+            "comment": "A good, visual time planning program.",
+            "stars": 5
+          },
+          {
+            "_id": "652aafc986fbe66cdf186ad0",
+            "name": "Pavlo Trunov",
+            "comment": "A pleasant find for me. It's exactly what I was looking for. The main advantage is the visual visualization in the form of boards and cards. I recommend it!",
+            "stars": 5
+          }
+        ]
+      },
+      "ReviewResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "652aafc986fbe66cdf186acc"
+          },
+          "name": {
+            "type": "string",
+            "example": "Volodymyr Shvets"
+          },
+          "comment": {
+            "type": "string",
+            "example": "A good, visual time planning program."
+          },
+          "stars": {
+            "type": "number",
+            "example": "5"
+          }
+        }
+      },
+      "GetAllTasksResponse": {
+        "type": "array",
+        "description": "Array of all tasks",
+        "items": {
+          "$ref": "#/components/schemas/TaskResponse"
+        },
+        "example": [
+          {
+            "_id": "6530774f6396da86abcb2377",
+            "title": "task 1",
+            "start": "09:00",
+            "end": "10:00",
+            "priority": "high",
+            "date": "2023-10-19",
+            "category": "to-do",
+            "owner": "653073cdeae73ae04545da9d",
+            "__v": 0
+          },
+          {
+            "_id": "653078276396da86abcb2383",
+            "title": "task 3",
+            "start": "09:30",
+            "end": "10:00",
+            "priority": "medium",
+            "date": "2023-10-25",
+            "category": "to-do",
+            "owner": "653073cdeae73ae04545da9d",
+            "__v": 0
+          }
+        ]
+      },
+      "TaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "653078276396da86abcb2383"
+          },
+          "title": {
+            "type": "string",
+            "example": "task 1"
+          },
+          "start": {
+            "type": "string",
+            "example": "09:30"
+          },
+          "end": {
+            "type": "number",
+            "example": "10:00"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["low", "medium", "high"],
+            "example": "medium"
+          },
+          "date": {
+            "type": "string",
+            "example": "YYYY-MM-DD"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["to-do", "in-progress", "done"],
+            "example": "to-do"
+          },
+          "owner": {
+            "type": "string",
+            "example": "653073cdeae73ae04545da9d"
+          },
+          "__v": {
+            "type": "number",
+            "example": "0"
+          }
+        }
+      },
+      "TaskBadRequestErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Missing year or month"
+          }
+        }
+      },
+      "TaskErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Task not found"
+          }
+        }
+      },
+      "DeleteTaskResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Task deleted successfully"
+          }
+        }
       }
     },
+
     "securitySchemes": {
       "Bearer": {
         "type": "http",

@@ -10,12 +10,15 @@ import authenticate from "../../middleware/authenticate.js";
 const reviewsRouter = express.Router();
 
 const reviewsAddValidate = validateBody(reviewsSchemas.reviewsAddCommentSchema)
+const reviewsUpdateValidate = validateBody(
+  reviewsSchemas.reviewsUpdateCommentSchema
+);
 
 
 reviewsRouter.get('/', reviewController.getReview)
 reviewsRouter.get('/own', authenticate, reviewController.getOwnReview)
 reviewsRouter.post('/own', authenticate,reviewsAddValidate, reviewController.addReview)
-reviewsRouter.patch("/own", authenticate, reviewController.editingReview);
+reviewsRouter.patch("/own", authenticate, reviewsUpdateValidate, reviewController.editingReview);
 reviewsRouter.delete("/own", authenticate, reviewController.deleteReview);
 
 export default reviewsRouter;
