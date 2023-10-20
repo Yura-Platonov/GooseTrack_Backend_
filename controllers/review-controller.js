@@ -17,18 +17,20 @@ const getOwnReview = async (req, res, next) => {
 };
 
 const addReview = async (req, res) => {
+  const avatarURL = req.user.avatarURL;
   const { name, comment, stars } = req.body;
-  const newReview = await Reviews.create({ name, comment, stars });
+  const newReview = await Reviews.create({ name, comment, stars, avatarURL });
   res.status(201).json(newReview);
 };
 
 const editingReview = async (req, res) => {
   const username = req.user.username;
+  const avatarURL = req.user.avatarURL;
   const updatedComment = req.body.comment;
   const updatedStars = req.body.stars;
   const userReview = await Reviews.findOneAndUpdate(
     { name: username },
-    { $set: { comment: updatedComment, stars: updatedStars } },
+    { $set: { comment: updatedComment, stars: updatedStars, avatarURL } },
     { new: true }
   );
   if (!userReview) {
