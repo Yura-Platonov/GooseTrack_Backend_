@@ -7,7 +7,7 @@ const getTask = async (req, res, next) => {
      const { _id: owner } = req.user;
     const { month, year } = req.query;
     if (!month || !year) {
-        throw HttpError(400, "Місяць та рік є обов'язковими параметрами.");
+        throw HttpError(400, "Missing year or month");
     }
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0);
@@ -18,7 +18,7 @@ const getTask = async (req, res, next) => {
         $gte: startDate.toISOString(),
         $lte: endDate.toISOString(),
       },
-    }).populate("owner");
+    });
   if (!tasks.length) {
     throw HttpError(400, "Завдань не знайдено.");
   }
@@ -56,10 +56,7 @@ const editTask = async (req, res, next) => {
       { new: true } 
     );
     if (!updatedTask) {
-      throw HttpError(
-        404,
-        "Завдання не знайдено або немає прав на редагування."
-      );
+      throw HttpError(404, "Task not found");
     }
     res.status(200).json({ task: updatedTask });
 }
@@ -72,10 +69,10 @@ const deleteTask = async (req, res, next) => {
     });
 
     if (!deletedTask) {
-      throw HttpError(404, "Завдання не знайдено або немає прав на видалення.");
+      throw HttpError(404, "Task not found");
     }
 
-    res.status(200).json({ message: "Завдання було видалено." });
+    res.status(200).json({ message: "Task deleted successfully" });
 };
 
 export default {
