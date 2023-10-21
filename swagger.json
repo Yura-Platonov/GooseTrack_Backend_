@@ -920,6 +920,10 @@
           "stars": {
             "type": "number",
             "example": "5"
+          },
+          "avatarURL": {
+            "type": "string",
+            "example": "//www.gravatar.com/avatar/1cbe9c273ac85b7137525ac33d0a52b7"
           }
         }
       },
@@ -1178,19 +1182,22 @@
             "_id": "652aafc986fbe66cdf186acb",
             "name": "Ihor Dronenko",
             "comment": "Really helps to increase productivity. The application has a clear interface and useful features. I like it at the initial stage. ",
-            "stars": 5
+            "stars": 5,
+            "avatarURL": "//www.gravatar.com/avatar/1cbe9c273ac85b7137525ac33d0a52b7"
           },
           {
             "_id": "652aafc986fbe66cdf186acc",
             "name": "Volodymyr Shvets",
             "comment": "A good, visual time planning program.",
-            "stars": 5
+            "stars": 5,
+            "avatarURL": "//www.gravatar.com/avatar/1cbe9c273ac85b7137525ac33d0a52b7"
           },
           {
             "_id": "652aafc986fbe66cdf186ad0",
             "name": "Pavlo Trunov",
             "comment": "A pleasant find for me. It's exactly what I was looking for. The main advantage is the visual visualization in the form of boards and cards. I recommend it!",
-            "stars": 5
+            "stars": 5,
+            "avatarURL": "//www.gravatar.com/avatar/1cbe9c273ac85b7137525ac33d0a52b7"
           }
         ]
       },
@@ -1212,6 +1219,10 @@
           "stars": {
             "type": "number",
             "example": "5"
+          },
+          "avatarURL": {
+            "type": "string",
+            "example": "//www.gravatar.com/avatar/1cbe9c273ac85b7137525ac33d0a52b7"
           }
         }
       },
