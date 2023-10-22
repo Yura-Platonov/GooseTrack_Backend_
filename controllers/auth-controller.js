@@ -5,11 +5,12 @@ import gravatar from "gravatar";
 import User from "../models/User.js";
 import { HttpError, sendEmail } from "../helpers/index.js";
 import { ctrlWrapper } from "../decorators/index.js";
+import emailVerify from "../views/emailVerify.js";
 import { nanoid } from "nanoid";
 const { JWT_SECRET, BASE_URL, FRONTEND_URL } = process.env;
 
 const register = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, username } = req.body;
   const user = await User.findOne({ email });
   if (user) {
     throw HttpError(409, "Email in use");
@@ -26,10 +27,12 @@ const register = async (req, res) => {
     verificationToken,
   });
 
+  const urlVerify = `${BASE_URL}/api/auth/verify/${verificationToken}`;
+
   const verifyEmail = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click verify email</a>`,
+    html: emailVerify(urlVerify, email, username),
   };
 
   await sendEmail(verifyEmail);
@@ -56,7 +59,7 @@ const verify = async (req, res) => {
 const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
-
+  const username = user.username;
   if (!user) {
     throw HttpError(404, "User not found");
   }
@@ -65,10 +68,12 @@ const resendVerifyEmail = async (req, res) => {
     throw HttpError(400, "Verification has already been passed");
   }
 
+  const urlVerify = `${BASE_URL}/api/auth/verify/${user.verificationToken}`;
+
   const verifyEmail = {
     to: email,
     subject: "Verify email",
-    html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${user.verificationToken}">Click verify email</a>`,
+    html: emailVerify(urlVerify, email, username),
   };
 
   await sendEmail(verifyEmail);
