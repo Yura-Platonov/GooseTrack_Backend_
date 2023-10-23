@@ -577,7 +577,7 @@
         }
       }
     },
-    "/api/tasks": {
+    "/api/task": {
       "get": {
         "tags": ["Tasks"],
         "summary": "Get review created by the current user",
@@ -695,7 +695,7 @@
         }
       }
     },
-    "/api/tasks/{taskId}": {
+    "/api/task/{taskId}": {
       "patch": {
         "tags": ["Tasks"],
         "summary": "Update task",
@@ -969,10 +969,6 @@
             "type": "string",
             "enum": ["to-do", "in-progress", "done"],
             "example": "to-do"
-          },
-          "owner": {
-            "type": "string",
-            "example": "653073cdeae73ae04545da9d"
           }
         }
       },
@@ -1004,10 +1000,6 @@
             "type": "string",
             "enum": ["to-do", "in-progress", "done"],
             "example": "to-do"
-          },
-          "owner": {
-            "type": "string",
-            "example": "653073cdeae73ae04545da9d"
           }
         }
       },
