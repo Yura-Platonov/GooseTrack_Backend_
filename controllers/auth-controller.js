@@ -109,6 +109,7 @@ const login = async (req, res) => {
     user: {
       id: user._id,
       email: user.email,
+      theme: user.theme,
       username: user.username,
       birthday: user.birthday,
       phone: user.phone,
@@ -155,6 +156,7 @@ const updateUser = async (req, res) => {
   res.json({
     email: user.email,
     name: user.name,
+    theme: user.theme,
     birthday: user.birthday,
     phone: user.phone,
     skype: user.skype,
