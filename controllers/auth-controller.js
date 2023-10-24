@@ -162,6 +162,14 @@ const updateUser = async (req, res) => {
   });
 };
 
+const updateTheme = async (req, res) => {
+  const { _id } = req.user;
+  const newTheme = !req.user.theme;
+  await User.findByIdAndUpdate(_id, { theme: newTheme });
+
+  res.status(200).json({ message: "Theme updated successfully" });
+};
+
 const logout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
@@ -178,4 +186,5 @@ export default {
   getCurrent: ctrlWrapper(getCurrent),
   updateUser: ctrlWrapper(updateUser),
   logout: ctrlWrapper(logout),
+  updateTheme: ctrlWrapper(updateTheme),
 };

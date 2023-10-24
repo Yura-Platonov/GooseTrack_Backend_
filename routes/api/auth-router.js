@@ -33,6 +33,8 @@ authRouter.patch(
   authController.updateUser
 );
 
+authRouter.patch("/theme", authenticate, authController.updateTheme);
+
 authRouter.post("/logout", authenticate, authController.logout);
 
 export default authRouter;
