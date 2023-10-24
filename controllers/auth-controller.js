@@ -126,6 +126,7 @@ const getCurrent = (req, res) => {
     id: _id,
     email,
     username,
+    theme,
     birthday,
     phone,
     skype,
