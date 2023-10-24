@@ -120,7 +120,8 @@ const login = async (req, res) => {
 };
 
 const getCurrent = (req, res) => {
-  const { _id, email, username, birthday, phone, skype, avatarURL } = req.user;
+  const { _id, email, username, birthday, theme, phone, skype, avatarURL } =
+    req.user;
 
   res.json({
     id: _id,
