@@ -47,8 +47,8 @@ const userSchema = new Schema(
       required: [true, "Verify token is required"],
     },
     theme: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: "lightTheme",
     },
   },
   { versionKey: false, timestamps: true }
