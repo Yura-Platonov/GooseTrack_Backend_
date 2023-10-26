@@ -157,7 +157,7 @@ const updateUser = async (req, res) => {
   const user = await User.findById(_id);
   res.json({
     email: user.email,
-    name: user.name,
+    username: user.username,
     theme: user.theme,
     birthday: user.birthday,
     phone: user.phone,
