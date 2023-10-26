@@ -28,6 +28,8 @@ authRouter.get("/current", authenticate, authController.getCurrent);
 authRouter.patch(
   "/update",
   authenticate,
+  userUpdateValidate,
+  upload.single("avatar"),
   authController.updateUser
 );
 
