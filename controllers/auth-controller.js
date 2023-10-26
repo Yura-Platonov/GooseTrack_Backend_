@@ -171,7 +171,7 @@ const updateTheme = async (req, res) => {
   const { theme } = req.body;
   await User.findByIdAndUpdate(_id, { theme });
 
-  res.status(200).json({ message: "Theme updated successfully" });
+  res.status(200).json({ theme });
 };
 
 const logout = async (req, res) => {
