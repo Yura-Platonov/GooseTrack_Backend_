@@ -149,7 +149,7 @@ const updateUser = async (req, res) => {
   }
 
   if (req.file) {
-    const avatarURL = req.file.path;
+    const {avatarURL} = req.body;
     await User.findByIdAndUpdate(_id, { avatarURL, ...req.body });
   }
 
