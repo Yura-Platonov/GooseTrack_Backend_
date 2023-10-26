@@ -167,9 +167,9 @@ const updateUser = async (req, res) => {
 };
 
 const updateTheme = async (req, res) => {
-  const { _id } = req.user;
-  const newTheme = !req.user.theme;
-  await User.findByIdAndUpdate(_id, { theme: newTheme });
+   const { _id } = req.user;
+  const { theme } = req.body;
+  await User.findByIdAndUpdate(_id, { theme });
 
   res.status(200).json({ message: "Theme updated successfully" });
 };
